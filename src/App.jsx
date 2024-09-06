@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, Modal, Box } from '@mui/material'
-import './App.css'
-import imagen1 from './assets/img/descarga (1).jpeg'
-import imagen2 from './assets/img/descarga (2).jpeg'
-import imagen3 from './assets/img/descarga.jpeg'
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Modal, Box, TextField } from '@mui/material';
+import './App.css';
+import imagen1 from './assets/img/descarga.jpeg'
+import imagen2 from './assets/img/descarga (1).jpeg'
+import imagen3 from './assets/img/descarga (2).jpeg'
+// Datos para las tarjetas
 const data = [
   {
     name: "Tarjeta 1",
@@ -33,7 +35,8 @@ const style = {
   p: 4,
 };
 
-function App() {
+// Componente de tarjetas
+function Tarjetas() {
   const [open, setOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -100,6 +103,67 @@ function App() {
         </Box>
       </Modal>
     </>
+  );
+}
+
+// Componente para el ejercicio con los inputs de costo y cantidad
+function Ejercicio() {
+  const [costo, setCosto] = useState(0);
+  const [cantidad, setCantidad] = useState(0);
+  const [resultado, setResultado] = useState(0);
+
+  const handleCalcular = () => {
+    const total = costo * cantidad;
+    setResultado(total);
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>Calculadora de Costo x Cantidad</h2>
+      <div style={{ marginBottom: '15px' }}>
+        <TextField
+          label="Costo"
+          type="number"
+          value={costo}
+          onChange={(e) => setCosto(parseFloat(e.target.value))}
+          variant="outlined"
+          fullWidth
+        />
+      </div>
+      <div style={{ marginBottom: '15px' }}>
+        <TextField
+          label="Cantidad"
+          type="number"
+          value={cantidad}
+          onChange={(e) => setCantidad(parseFloat(e.target.value))}
+          variant="outlined"
+          fullWidth
+        />
+      </div>
+      <Button variant="contained" onClick={handleCalcular}>
+        Calcular
+      </Button>
+
+      <Typography variant="h6" style={{ marginTop: '20px' }}>
+        Resultado: {resultado}
+      </Typography>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <nav style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+        <Link to="/" style={{ margin: '0 15px' }}>Tarjetas</Link>
+        <Link to="/ejercicio" style={{ margin: '0 15px' }}>Ejercicio</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Tarjetas />} />
+        <Route path="/ejercicio" element={<Ejercicio />} />
+      </Routes>
+    </Router>
   );
 }
 
